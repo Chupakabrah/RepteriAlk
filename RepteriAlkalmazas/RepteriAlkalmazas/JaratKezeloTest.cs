@@ -69,5 +69,47 @@ namespace RepteriAlkalmazas
             Assert.AreEqual(testDate2, testDate.AddMinutes(5));
         }
 
+        [Test]
+        public void RosszIndulas()
+        {
+            DateTime testDate2 = new DateTime(2018, 07, 21, 12, 20, 20);
+
+            jarat.UjJarat("0715", "002", "004", testDate);
+            jarat.Keses("0715", 20);
+            jarat.Keses("0715", -15);
+
+
+            Assert.AreNotEqual(testDate2, testDate.AddMinutes(5));
+        }
+
+        [Test]
+        public void NemLetezoRepter()
+        {
+            jarat.UjJarat("0715", "002", "004", testDate);
+            jarat.UjJarat("0716", "001", "003", testDate.AddMinutes(5));
+            Assert.Throws<ArgumentException>(() =>
+            {
+                jarat.JaratokRepuloterrol("006");
+            });
+        }
+
+        [Test]
+        public void VanERepter()
+        {
+            jarat.UjJarat("0715", "002", "004", testDate);
+            jarat.UjJarat("0716", "001", "003", testDate.AddMinutes(5));
+            jarat.JaratokRepuloterrol("002");
+        }
+
+        [Test]
+        public void MikorIndulException()
+        {
+            jarat.UjJarat("0715", "002", "004", testDate);
+            Assert.Throws<ArgumentException>(() =>
+            {
+                jarat.MikorIndul("0716");
+            });
+        }
+
     }
 }
